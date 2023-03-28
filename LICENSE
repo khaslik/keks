@@ -1,21 +1,63 @@
-MIT License
+*build*/
+*install*/
+*.swp
+.idea/
+$ git pull origin master
+$ git log
+$ mkdir sources
+$ mkdir include
+$ mkdir examples
+$ cat > sources/print.cpp <<EOF
+#include <print.hpp>
 
-Copyright (c) 2023 khaslik
+void print(const std::string& text, std::ostream& out)
+{
+  out << text;
+}
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+void print(const std::string& text, std::ofstream& out)
+{
+  out << text;
+}
+EOF
+$ cat > include/print.hpp <<EOF
+#include <fstream>
+#include <iostream>
+#include <string>
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+void print(const std::string& text, std::ofstream& out);
+void print(const std::string& text, std::ostream& out = std::cout);
+EOF
+$ cat > examples/example1.cpp <<EOF
+#include <print.hpp>
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+int main(int argc, char** argv)
+{
+  print("hello");
+}
+EOF
+$ cat > examples/example2.cpp <<EOF
+#include <print.hpp>
+
+#include <fstream>
+
+int main(int argc, char** argv)
+{
+  std::ofstream file("log.txt");
+  print(std::string("hello"), file);
+}
+EOF
+$ edit README.md
+$ git status
+$ git add .
+$ git commit -m"added sources"
+$ git push origin master
+Report
+$ cd ~/workspace/
+$ export LAB_NUMBER=02
+$ git clone https://github.com/tp-labs/lab${LAB_NUMBER}.git tasks/lab${LAB_NUMBER}
+$ mkdir reports/lab${LAB_NUMBER}
+$ cp tasks/lab${LAB_NUMBER}/README.md reports/lab${LAB_NUMBER}/REPORT.md
+$ cd reports/lab${LAB_NUMBER}
+$ edit REPORT.md
+$ gist REPORT.md
